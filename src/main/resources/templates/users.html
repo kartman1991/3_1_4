@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Index page</title>
+</head>
+<body>
+<a href="new">Создать</a>
+<br>
+<th:block th:each="user : ${users}"  >
+    <text th:text="${user}" th:with="id = ${user.getId()}"></text>
+    <a th:href="@{/{id} (id=${user.getId()})}">Удалить</a>
+    <a th:href="@{/update/{id} (id=${user.getId()})}">Править</a>
+    <br>
+</th:block>
+</body>
+</html>
