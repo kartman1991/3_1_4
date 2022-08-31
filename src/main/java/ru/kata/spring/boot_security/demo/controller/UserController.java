@@ -3,8 +3,13 @@ package ru.kata.spring.boot_security.demo.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.UserService;
+
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 @Controller
 @RequestMapping(name = "/")
@@ -22,26 +27,35 @@ public class UserController {
         return "users";
     }
     @PostMapping()
-    public String create(@ModelAttribute("user") User user) {
+//    public String create(@ModelAttribute("user") User user) {
+    public String create(Model model, User user) {
+        boolean check = true;
+        System.out.println(check);
+        model.addAttribute("user", user);
+        model.addAttribute("check", check);
         userService.save(user);
         return "redirect:/";
     }
     @GetMapping("/admin/new")
-    public String newUser(@ModelAttribute("user") User user) {
-        return "new";
+//    public String newUser(@ModelAttribute("user") User user) {
+    public String newUser(Model model) {
+        boolean check = true;
+        model.addAttribute("user", new User());
+        model.addAttribute("check", check);
+        return "admin/new";
     }
     @PostMapping("/{id}")
     public String update(@ModelAttribute("user") User user) {
         userService.update(user);
         return "redirect:/";
     }
-    @GetMapping("/admin/update/{id}")
+    @GetMapping("admin/update/{id}")
     public String editUser(Model model, @PathVariable("id") Long id) {
         model.addAttribute("user", userService.findById(id));
-        return "update";
+        return "admin/update";
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/admin/{id}")
     public String delete(@PathVariable("id") Long id) {
         userService.delete(id);
         return "redirect:/";

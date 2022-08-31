@@ -29,7 +29,13 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public void save(User user) {
-        user.setRoleSet(Collections.singleton(new Role((long) 1, "ROLE_USER")));
+        user.setRoleSet(Collections.singleton(new Role((long) 1, "ROLE_ADMIN")));
+//        System.out.println(user.isAdmin());
+//        if (confirm.equals("on")) {
+//            Set<Role> set = user.getRoleSet();
+//            set.add(new Role((long) 2, "ROLE_ADMIN"));
+//            user.setRoleSet(set);
+//        }
         entityManager.persist(user);
         entityManager.flush();
     }
@@ -49,11 +55,14 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public UserDetails loadUserByUsername(String username) {
-        User user = entityManager.find(User.class, username);
-        if (user == null) {
+        User user;
+        try {
+            user = entityManager.createQuery("SELECT u FROM User u where u.username = :name", User.class)
+                    .setParameter("name", username)
+                    .getSingleResult();
+        } catch (Exception e){
             throw new UsernameNotFoundException("This username not found");
         }
         return user;
     }
 }
-//    createQuery("from User where surname = 'username'", User.class).getSingleResult();

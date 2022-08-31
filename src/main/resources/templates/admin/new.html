@@ -7,15 +7,19 @@
 <body>
 
 <form th:method="POST" th:action="@{/}" th:object="${user}">
-  <label for="name">Имя: </label>
-  <input type="text" th:field="*{name}" id="name"/>
+  <label for="username">Ник: </label>
+  <input type="text" th:field="*{username}" id="username"/>
   <br>
-  <label for="surname">Фамилия: </label>
-  <input type="text" th:field="*{surname}" id="surname"/>
+  <label for="password">Пасс: </label>
+  <input type="password" th:field="*{password}" id="password"/>
   <br>
   <label for="age">Возраст: </label>
   <input type="text" th:field="*{age}" id="age"/>
   <br>
+  <label for="admin">Админские права будут?: </label>
+  <input type="checkbox" th:checked="${check}" id="admin"/>
+  <br>
+
   <input type="submit" value="Создать"/>
 </form>
 

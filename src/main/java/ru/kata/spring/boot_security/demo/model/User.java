@@ -14,21 +14,32 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name = "name")
-    private String userName;
+    private String username;
     @Column
     private String password;
     @Column
     private byte age;
     @ManyToMany(fetch = FetchType.EAGER)
-//    @JoinTable(name = "roles", joinColumns = @JoinColumn(name = "id"), inverseJoinColumns = @JoinColumn(name = "id"))
     private Set<Role> roleSet;
+
+    @Transient
+    private boolean admin;
+
+    public boolean isAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(boolean admin) {
+        this.admin = admin;
+    }
 
     public User() {}
 
-    public User(String userName, String password, byte age) {
-        this.userName = userName;
+    public User(String username, String password, byte age, boolean admin) {
+        this.username = username;
         this.password = password;
         this.age = age;
+        this.admin = admin;
     }
 
     public Long getId() {
@@ -41,11 +52,12 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return userName;
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     @Override
@@ -80,29 +92,29 @@ public class User implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return true;
     }
 
     @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
-                ", userName='" + userName + '\'' +
+                ", userName='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", age=" + age +
                 ", roleSet=" + roleSet +
