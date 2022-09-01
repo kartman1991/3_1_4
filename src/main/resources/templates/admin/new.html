@@ -6,7 +6,7 @@
 </head>
 <body>
 
-<form th:method="POST" th:action="@{/}" th:object="${user}">
+<form th:method="POST" th:action="@{/admin}" th:object="${user}">
   <label for="username">Ник: </label>
   <input type="text" th:field="*{username}" id="username"/>
   <br>
@@ -16,12 +16,13 @@
   <label for="age">Возраст: </label>
   <input type="text" th:field="*{age}" id="age"/>
   <br>
-  <label for="admin">Админские права будут?: </label>
-  <input type="checkbox" th:checked="${check}" id="admin"/>
+<!--  <label for="admin">Админские права будут?: </label>-->
+  <label for="admin" th:for="${user.setAdmin('true')}">Админские права будут?: </label>
+  <input type="checkbox" th:checked="*{admin}" id="admin"/>
   <br>
-
   <input type="submit" value="Создать"/>
 </form>
-
+<br>
+<a href="/logout">Выход</a>
 </body>
 </html>

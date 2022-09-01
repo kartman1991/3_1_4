@@ -1,11 +1,11 @@
 package ru.kata.spring.boot_security.demo.dao;
 
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Repository;
 import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import java.util.*;
 
@@ -60,8 +60,8 @@ public class UserDAOImpl implements UserDAO {
             user = entityManager.createQuery("SELECT u FROM User u where u.username = :name", User.class)
                     .setParameter("name", username)
                     .getSingleResult();
-        } catch (Exception e){
-            throw new UsernameNotFoundException("This username not found");
+        } catch (NoResultException e){
+            throw new NoResultException("User not found");
         }
         return user;
     }
