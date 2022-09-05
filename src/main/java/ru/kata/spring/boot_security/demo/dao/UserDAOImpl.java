@@ -1,5 +1,6 @@
 package ru.kata.spring.boot_security.demo.dao;
 
+import org.hibernate.mapping.Join;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Repository;
 import ru.kata.spring.boot_security.demo.model.Role;
@@ -57,7 +58,7 @@ public class UserDAOImpl implements UserDAO {
     public UserDetails loadUserByUsername(String username) {
         User user;
         try {
-            user = entityManager.createQuery("SELECT u FROM User u where u.username = :name", User.class)
+            user = entityManager.createQuery("SELECT u FROM User u JOIN fetch u.roleSet where u.username = :name", User.class)
                     .setParameter("name", username)
                     .getSingleResult();
         } catch (NoResultException e){

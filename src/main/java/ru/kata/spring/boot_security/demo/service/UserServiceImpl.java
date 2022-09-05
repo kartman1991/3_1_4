@@ -1,11 +1,18 @@
 package ru.kata.spring.boot_security.demo.service;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.dao.UserDAO;
+import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
+
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,6 +47,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
             return userDAO.loadUserByUsername(username);
-//            throw new UsernameNotFoundException("User not found");
+    }
+
+    public static String getAuthorities() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String s = "";
+        for (GrantedAuthority g : authentication.getAuthorities()) {
+            s = s + g;
+        }
+        return s.replace("ROLE_", " ");
     }
 }
