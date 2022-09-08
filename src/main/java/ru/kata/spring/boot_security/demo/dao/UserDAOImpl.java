@@ -30,7 +30,7 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public void save(User user) {
-        user.setRoleSet(Collections.singleton(new Role((long) 1, "ROLE_ADMIN")));
+        user.setAuthorities(Collections.singleton(new Role((long) 1, "ROLE_ADMIN")));
 //        System.out.println(user.isAdmin());
 //        if (confirm.equals("on")) {
 //            Set<Role> set = user.getRoleSet();

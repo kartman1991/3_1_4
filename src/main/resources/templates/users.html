@@ -1,14 +1,12 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en" class=" h-100">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <title>Index page</title>
 </head>
-<body>
-<div class="container-fluid">
-
+<body class="h-100">
 <header class="navbar-dark bg-dark pt-3">
         <div class="container">
     <div class="row">
@@ -20,26 +18,68 @@
 </div>
 </header>
 
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-2 bg-light">
-            <button type="button" class="btn btn-primary">Primary<a href="admin">Admin</a></button>
-
-            <br>
-            <a href="user">User</a>
+<div class="container-fluid h-100">
+    <div class="row bg-light h-100">
+        <div class="col-2">
+            <div class="d-flex flex-column flex-shrink-0 p-3 bg-white h-100">
+                <ul class="nav nav-pills flex-column mb-auto">
+                    <li class="nav-item">
+                        <a href="admin" class="nav-link active" aria-current="page">
+                            <svg class="bi me-2" width="16" height="16"><use xlink:href="#home"></use></svg>
+                            Admin
+                        </a>
+                    </li>
+                    <li>
+                        <a href="user" class="nav-link link-dark">
+                            <svg class="bi me-2" width="16" height="16"><use xlink:href="#people-circle"></use></svg>
+                            User
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </div>
-        <div class="col-5">
+        <div class="col-10">
             <p class="h2">Admin panel</p>
-            <a href="admin/new">Создать</a>
-            <th:block th:each="user : ${users}"  >
-                <text th:text="${user}" th:with="id = ${user.getId()}"></text>
-                <a th:href="@{/admin/{id} (id=${user.getId()})}">Удалить</a>
-                <a th:href="@{/admin/update/{id} (id=${user.getId()})}">Править</a>
-                <br>
-            </th:block>
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#">Users table</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="admin/new">New User</a>
+                </li>
+            </ul>
+            <table class="table table-striped caption-top bg-white">
+                <caption><p class="h5">All users</p></caption>
+<!--                <thead>-->
+                <tbody>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">First Name</th>
+                    <th scope="col">Last Name</th>
+                    <th scope="col">Age</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Role</th>
+                    <th scope="col">Edit</th>
+                    <th scope="col">Delete</th>
+                </tr>
+<!--                </thead>-->
+                <th:block th:each="user : ${users}">
+                <tr>
+                    <th scope="row"><text th:text="${user.getId()}"></text></th>
+                    <td><text th:text="${user.getUsername()}"></text></td>
+                    <td><text th:text="${user.getSurname()}"></text></td>
+                    <td><text th:text="${user.getAge()}"></text></td>
+                    <td><text th:text="${user.getEmail()}"></text></td>
+                    <td><text th:text="${user.getStringUserAuthorities()}"></text></td>
+                    <td><a class="btn btn-info btn-sm" th:href="@{/admin/update/{id} (id=${user.getId()})}">Edit</a></td>
+                    <td><a class="btn btn-danger btn-sm" th:href="@{/admin/{id} (id=${user.getId()})}">Delete</a></td>
+                </tr>
+                    </th:block>
+                </tbody>
+            </table>
         </div>
     </div>
-</div></div>
+</div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 </body>
 </html>

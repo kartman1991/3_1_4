@@ -7,7 +7,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.UserService;
-import ru.kata.spring.boot_security.demo.service.UserServiceImpl;
 
 @Controller
 @RequestMapping("/admin")
@@ -15,17 +14,18 @@ public class AdminController {
 
     private final UserService userService;
 
-
     public AdminController(UserService userService) {
         this.userService = userService;
     }
 
+
     @GetMapping()
     public String users(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) authentication.getPrincipal();
         model.addAttribute("users", userService.findAll());
-        model.addAttribute("auther", authentication.getName());
-        model.addAttribute("roles", UserServiceImpl.getAuthorities());
+        model.addAttribute("auther", user.getEmail());
+        model.addAttribute("roles", user.getStringUserAuthorities());
         return "users";
     }
     @PostMapping()
@@ -40,9 +40,10 @@ public class AdminController {
     @GetMapping("/new")
     public String newUser(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) authentication.getPrincipal();
         model.addAttribute("user", new User());
-        model.addAttribute("auther", authentication.getName());
-        model.addAttribute("roles", UserServiceImpl.getAuthorities());
+        model.addAttribute("auther", user.getEmail());
+        model.addAttribute("roles", user.getStringUserAuthorities());
         return "admin/new";
     }
     @PostMapping("/{id}")
@@ -53,9 +54,10 @@ public class AdminController {
     @GetMapping("/update/{id}")
     public String editUser(Model model, @PathVariable("id") Long id) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) authentication.getPrincipal();
         model.addAttribute("user", userService.findById(id));
-        model.addAttribute("auther", authentication.getName());
-        model.addAttribute("roles", UserServiceImpl.getAuthorities());
+        model.addAttribute("auther", user.getEmail());
+        model.addAttribute("roles", user.getStringUserAuthorities());
         return "admin/update";
     }
 
