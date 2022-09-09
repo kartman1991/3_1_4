@@ -1,6 +1,5 @@
 package ru.kata.spring.boot_security.demo.dao;
 
-import org.hibernate.mapping.Join;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Repository;
 import ru.kata.spring.boot_security.demo.model.Role;
@@ -30,13 +29,19 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public void save(User user) {
-        user.setAuthorities(Collections.singleton(new Role((long) 1, "ROLE_ADMIN")));
-//        System.out.println(user.isAdmin());
-//        if (confirm.equals("on")) {
-//            Set<Role> set = user.getRoleSet();
-//            set.add(new Role((long) 2, "ROLE_ADMIN"));
-//            user.setRoleSet(set);
-//        }
+
+        Role roleUser = new Role(1L, "ROLE_USER");
+        Role roleAdmin = new Role(2L, "ROLE_ADMIN");
+        Set<Role> set = new HashSet<>();
+
+        if (user.getRol().contains("1")) {
+            set.add(roleUser);
+        }
+        if (user.getRol().contains("2")) {
+            set.add(roleAdmin);
+        }
+        user.setAuthorities(set);
+
         entityManager.persist(user);
         entityManager.flush();
     }

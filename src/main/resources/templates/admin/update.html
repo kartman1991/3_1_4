@@ -10,8 +10,8 @@
 <header class="navbar-dark bg-dark pt-3">
   <div class="container">
     <div class="row">
-      <div class="col"><p class="text-white text-start"><text class="fw-bold" th:text="${auther}"></text>
-        with roles:<text th:text="${roles}"></text></p>
+      <div class="col"><p class="text-white text-start"><text class="fw-bold" th:text="${authuser.getEmail()}"></text>
+        with roles:<text th:text="${authuser.getStringUserAuthorities()}"></text></p>
       </div>
       <div class="col"><p class="text-end"><a class="text-decoration-none text-secondary" href="/logout">Logout</a></p></div>
     </div>

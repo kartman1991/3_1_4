@@ -10,8 +10,8 @@
 <header class="navbar-dark bg-dark pt-3">
     <div class="container">
         <div class="row">
-            <div class="col"><p class="text-white text-start"><text class="fw-bold" th:text="${auther}"></text>
-                with roles:<text th:text="${roles}"></text></p>
+            <div class="col"><p class="text-white text-start"><text class="fw-bold" th:text="${authuser.getEmail()}"></text>
+                with roles:<text th:text="${authuser.getStringUserAuthorities()}"></text></p>
             </div>
             <div class="col"><p class="text-end"><a class="text-decoration-none text-secondary" href="/logout">Logout</a></p></div>
         </div>
@@ -24,7 +24,7 @@
             <div class="d-flex flex-column flex-shrink-0 p-3 bg-white h-100">
                 <ul class="nav nav-pills flex-column mb-auto">
                     <li class="nav-item">
-                        <a href="admin" class="nav-link link-dark" aria-current="page">
+                        <a th:if="${authuser.getStringUserAuthorities().contains('ADMIN')}" href="admin" class="nav-link link-dark" aria-current="page">
                             <svg class="bi me-2" width="16" height="16"><use xlink:href="#home"></use></svg>
                             Admin
                         </a>
@@ -52,12 +52,12 @@
                     <th scope="col">Role</th>
                 </tr>
                     <tr>
-                        <th scope="row"><text th:text="${user.getId()}"></text></th>
-                        <td><text th:text="${user.getUsername()}"></text></td>
-                        <td><text th:text="${user.getSurname()}"></text></td>
-                        <td><text th:text="${user.getAge()}"></text></td>
-                        <td><text th:text="${user.getEmail()}"></text></td>
-                        <td><text th:text="${user.getStringUserAuthorities()}"></text></td>
+                        <th scope="row"><text th:text="${authuser.getId()}"></text></th>
+                        <td><text th:text="${authuser.getUsername()}"></text></td>
+                        <td><text th:text="${authuser.getSurname()}"></text></td>
+                        <td><text th:text="${authuser.getAge()}"></text></td>
+                        <td><text th:text="${authuser.getEmail()}"></text></td>
+                        <td><text th:text="${authuser.getStringUserAuthorities()}"></text></td>
                     </tr>
                 </tbody>
             </table>

@@ -1,6 +1,5 @@
 package ru.kata.spring.boot_security.demo.controller;
 
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,29 +20,20 @@ public class AdminController {
 
     @GetMapping()
     public String users(Model model) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = (User) authentication.getPrincipal();
         model.addAttribute("users", userService.findAll());
-        model.addAttribute("auther", user.getEmail());
-        model.addAttribute("roles", user.getStringUserAuthorities());
+        model.addAttribute("authuser", SecurityContextHolder.getContext().getAuthentication().getPrincipal());
         return "users";
     }
     @PostMapping()
     public String create(Model model, User user) {
-//        boolean check = true;
-//        System.out.println(user.isAdmin());
         model.addAttribute("user", user);
-//        model.addAttribute("check", check);
         userService.save(user);
         return "redirect:/admin";
     }
     @GetMapping("/new")
     public String newUser(Model model) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = (User) authentication.getPrincipal();
-        model.addAttribute("user", new User());
-        model.addAttribute("auther", user.getEmail());
-        model.addAttribute("roles", user.getStringUserAuthorities());
+        model.addAttribute("newuser", new User());
+        model.addAttribute("authuser", SecurityContextHolder.getContext().getAuthentication().getPrincipal());
         return "admin/new";
     }
     @PostMapping("/{id}")
@@ -53,11 +43,8 @@ public class AdminController {
     }
     @GetMapping("/update/{id}")
     public String editUser(Model model, @PathVariable("id") Long id) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = (User) authentication.getPrincipal();
         model.addAttribute("user", userService.findById(id));
-        model.addAttribute("auther", user.getEmail());
-        model.addAttribute("roles", user.getStringUserAuthorities());
+        model.addAttribute("authuser", SecurityContextHolder.getContext().getAuthentication().getPrincipal());
         return "admin/update";
     }
 

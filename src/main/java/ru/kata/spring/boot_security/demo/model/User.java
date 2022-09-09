@@ -1,9 +1,6 @@
 package ru.kata.spring.boot_security.demo.model;
 
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import java.util.Collection;
@@ -36,25 +33,24 @@ public class User implements UserDetails {
     private Set<Role> roleSet;
 
     @Transient
-    private boolean admin;
+    private String rol;
 
-    public boolean isAdmin() {
-        return admin;
+    public String getRol() {
+        return rol;
     }
 
-    public void setAdmin(boolean admin) {
-        this.admin = admin;
+    public void setRol(String rol) {
+        this.rol = rol;
     }
 
     public User() {}
 
-    public User(String username, String surname, String email, String password, byte age, boolean admin) {
+    public User(String username, String surname, String email, String password, byte age) {
         this.username = username;
         this.surname = surname;
         this.email = email;
         this.password = password;
         this.age = age;
-        this.admin = admin;
     }
 
     public Long getId() {
@@ -106,10 +102,6 @@ public class User implements UserDetails {
     public void setAge(byte age) {
         this.age = age;
     }
-
-//    public Set<Role> getRoleSet() {
-//        return roleSet;
-//    }
 
     public void setAuthorities(Set<Role> roleSet) {
         this.roleSet = roleSet;
