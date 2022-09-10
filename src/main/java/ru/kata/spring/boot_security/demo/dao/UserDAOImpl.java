@@ -27,9 +27,7 @@ public class UserDAOImpl implements UserDAO {
         return entityManager.find(User.class, id);
     }
 
-    @Override
-    public void save(User user) {
-
+    private Set<Role> userCheckRole(User user) {
         Role roleUser = new Role(1L, "ROLE_USER");
         Role roleAdmin = new Role(2L, "ROLE_ADMIN");
         Set<Role> set = new HashSet<>();
@@ -42,12 +40,19 @@ public class UserDAOImpl implements UserDAO {
         }
         user.setAuthorities(set);
 
+        return set;
+    }
+
+    @Override
+    public void save(User user) {
+        userCheckRole(user);
         entityManager.persist(user);
         entityManager.flush();
     }
 
     @Override
     public void update(User user) {
+        userCheckRole(user);
         entityManager.merge(user);
         entityManager.flush();
     }
