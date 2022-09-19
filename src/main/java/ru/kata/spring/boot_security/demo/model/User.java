@@ -33,7 +33,7 @@ public class User implements UserDetails {
     private Set<Role> roleSet;
 
     @Transient
-    private String rol;
+    private String rol = " ";
 
     public String getRol() {
         return rol;
