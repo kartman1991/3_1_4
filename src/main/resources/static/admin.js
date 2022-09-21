@@ -21,7 +21,7 @@ const showUser = (data) => {
                         <td>${user.surname}</td>
                         <td>${user.age}</td>
                         <td>${user.email}</td>
-                        <td>${user.stringUserAuthorities}</td>
+                        <td>${user.authorities.map(role => role.name === 'ROLE_ADMIN' ? 'ADMIN' : 'USER')}</td>
                         <td><a class="btn btn-info btn-sm" data-bs-toggle="modal" id="editUserBtn" data-bs-target="#editUser">Edit</a></td>
                         <td><a class="btn btn-danger btn-sm" data-bs-toggle="modal" id="deleteUserBtn" data-bs-target="#deleteUser">Delete</a></td>
                     </tr>`

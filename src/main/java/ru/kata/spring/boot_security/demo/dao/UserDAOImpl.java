@@ -28,8 +28,10 @@ public class UserDAOImpl implements UserDAO {
     }
 
     private Set<Role> userCheckRole(User user) {
-        Role roleUser = new Role(1L, "ROLE_USER");
-        Role roleAdmin = new Role(2L, "ROLE_ADMIN");
+//        Role roleUser = new Role(1L, "ROLE_USER");
+//        Role roleAdmin = new Role(2L, "ROLE_ADMIN");
+        Role roleUser = entityManager.find(Role.class, 1L);
+        Role roleAdmin = entityManager.find(Role.class, 2L);
         Set<Role> set = new HashSet<>();
 
         if (user.getRol().contains("1")) {
